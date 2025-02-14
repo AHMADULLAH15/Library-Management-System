@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head_title %}Book Details{% endblock head_title %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto p-6 text-gray-300">
+    <!-- Book Details Section -->
+    <div class="flex flex-col md:flex-row bg-gray-800 p-6 rounded-lg shadow-md">
+        <!-- Book Image -->
+        <div class="w-full md:w-1/3 flex justify-center items-center mb-6 md:mb-0">
+            <img class="rounded-lg shadow-sm" src="{{ book.image.url }}" alt="{{ book.title }}">
+        </div>
+
+        <!-- Book Information -->
+        <div class="w-full md:w-2/3 md:pl-8">
+            <h2 class="text-2xl font-bold text-yellow-400 mb-4">{{ book.title }}</h2>
+            <p class="text-gray-400 mb-4">{{ book.description }}</p>
+            <p class="text-lg mb-3">Price: <strong class="text-green-400">${{ book.borrowed_price }}</strong></p>
+            <p class="text-lg mb-6">Category: <strong class="text-blue-400">{{ book.category }}</strong></p>
+            <a href="{% url 'borrow_book' book.id %}" class="inline-block bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300">Borrow Book</a>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="mt-8">
+        <h3 class="text-2xl font-bold text-yellow-400 mb-4">Total Review: {{ book.comments.count }}</h3>
+        {% for comment in book.comments.all %}
+        <div class="bg-gray-700 p-4 rounded-lg mb-4 shadow-sm">
+            <p class="mb-2">
+                <strong class="font-medium text-gray-300">{{ comment.name }}</strong>
+                <small class="text-gray-500"> ({{ comment.created_on|date:"jS F Y h:i A" }})</small>
+            </p>
+            <q class="text-gray-400 italic">{{ comment.text }}</q>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add Comment Form -->
+    <div class="mt-8">
+        <h3 class="text-2xl font-bold text-yellow-400 mb-4">Leave a Review</h3>
+        <form method="post" action="{% url 'add_comment' book.id %}" novalidate class="bg-gray-800 p-6 rounded-lg shadow-md">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-4">
+                <label class="block text-gray-300 font-medium mb-2">{{ field.label_tag }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <small class="text-red-400">{{ field.errors | striptags }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="bg-yellow-500 text-black px-6 py-2 rounded-lg hover:bg-yellow-600 transition duration-300">Reviews</button>
+        </form>
+    </div>
+</div>
+{% endblock content %}

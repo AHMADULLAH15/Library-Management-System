@@ -1,0 +1,9 @@
+<h4>Hello, {{user.first_name}} {{user.last_name}}</h4>
+{% if type == 'deposit' %}
+    <p>your account has been  successfully deposited {{ amount }} tk. After Deposited your current balance is {{user.account.balance }} tk.</p>
+{% elif type == 'borrow' %}
+    <p>you have been successfully borrow the book for {{ amount }} tk. After borrow the book your current balance is {{user.account.balance }} tk.</p>
+{% elif type == 'return_book' %}
+    <p>you have been successfully return the book. After return the book, {{amount}} tk returned to your account. After returned money your current balance is {{user.account.balance }} tk.</p>
+{% endif %}
+<p>Thanks for stay with us</p>

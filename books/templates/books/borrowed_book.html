@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head_title %}Borrowed Book List{% endblock head_title %}
+
+{% block content %}
+    <div class="overflow-x-auto">
+  <table class="table">
+    <!-- head -->
+    <thead>
+      <tr>
+        <th class="font-bold">Book Name</th>
+        <th class="font-bold">User Name</th>
+        <th class="font-bold">User Email</th>
+        <th class="font-bold">Borrow Amount</th>
+        <th class="font-bold">Borrow Date</th>
+        <th class="font-bold">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for borrowed_book in borrowed_books %}
+        <tr>
+            <td>
+                <div class="flex items-center gap-3">
+                    <div class="avatar">
+                        <div class="mask mask-squircle w-12 h-12">
+                            <img src="{{borrowed_book.book.image.url}}" alt="Book" />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-bold">{{borrowed_book.book.title}}</div>
+                    </div>
+                </div>
+            </td>
+            <td>{{request.user.first_name}} {{request.user.last_name}}</td>
+            <td>{{ borrowed_book.user.user.email }}</td>
+            <td>{{ borrowed_book.book.borrowed_price }}</td>
+            <td>{{ borrowed_book.created_on|date:"jS F Y" }}</td>
+            <th>
+                <a href="{% url "add_comment" borrowed_book.book.id %}" class="btn btn-active btn-accent btn-xs">Review Book</a>
+                <a href="{% url "return_book" borrowed_book.id %}" class="btn btn-error btn-xs">Return Book</a>
+            </th>
+        </tr>
+      {% endfor %}
+    </tbody>
+    
+  </table>
+</div>
+{% endblock content %}
