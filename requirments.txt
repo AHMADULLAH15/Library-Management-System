@@ -1,0 +1,13 @@
+asgiref
+crispy-bootstrap5
+crispy-tailwind
+dj-database-url
+Django
+django-crispy-forms
+django-email
+django-environ
+pillow
+psycopg2
+sqlparse
+typing_extensions
+tzdata
